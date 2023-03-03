@@ -7,13 +7,10 @@ const addBookThunk = (book) => {
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
       },
-      body: JSON.stringify({
-        book,
-        completed: false,
-      }),
+      body: JSON.stringify(book),
     });
     const data = await response.json();
-    dispatch(createBook(data.book));
+    dispatch(createBook(data));
   };
 };
 

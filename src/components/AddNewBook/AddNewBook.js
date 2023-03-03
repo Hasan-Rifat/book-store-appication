@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import addBookThunk from "../../redux/book/thunk/addBookThunk";
+import updateBookThunk from "../../redux/book/thunk/updateBookThunk";
 
 const AddNewBook = () => {
   const book = useSelector((state) => state.book.book);
-  console.log(book);
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
@@ -14,9 +14,9 @@ const AddNewBook = () => {
   const [price, setPrice] = useState("");
   const [rating, setRating] = useState("");
   const [featured, setFeatured] = useState(false);
-  const [id, setId] = useState(uuidv4());
+  const [id] = useState(uuidv4());
 
-  console.log();
+  const isTrue = book.length === 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,10 +33,38 @@ const AddNewBook = () => {
 
     dispatch(addBookThunk(data));
   };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const author = e.target.author.value;
+    const thumbnail = e.target.thumbnail.value;
+    const price = e.target.price.value;
+    const rating = e.target.rating.value;
+    const featured = e.target.featured.checked;
+    const id = book.id;
+
+    const data = {
+      name,
+      author,
+      thumbnail,
+      price,
+      rating: +rating,
+      featured,
+      id,
+    };
+
+    console.log(data);
+
+    dispatch(updateBookThunk(id, data));
+  };
   return (
     <div className="p-4 overflow-hidden bg-white shadow-cardShadow rounded-md">
       <h4 className="mb-8 text-xl font-bold text-center">Add New Book</h4>
-      <form onSubmit={handleSubmit} className="book-htmlForm">
+      <form
+        onSubmit={isTrue ? handleSubmit : handleUpdate}
+        className="book-htmlForm"
+      >
         <div className="space-y-2">
           <label htmlFor="name">Book Name</label>
           <input
@@ -45,6 +73,7 @@ const AddNewBook = () => {
             type="text"
             id="input-Bookname"
             name="name"
+            defaultValue={book?.name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
@@ -58,6 +87,7 @@ const AddNewBook = () => {
             id="input-Bookauthor"
             name="author"
             onChange={(e) => setAuthor(e.target.value)}
+            defaultValue={book?.author}
           />
         </div>
 
@@ -69,6 +99,7 @@ const AddNewBook = () => {
             type="text"
             id="input-Bookthumbnail"
             name="thumbnail"
+            defaultValue={book?.thumbnail}
             onChange={(e) => setThumbnail(e.target.value)}
           />
         </div>
@@ -82,6 +113,7 @@ const AddNewBook = () => {
               type="number"
               id="input-Bookprice"
               name="price"
+              defaultValue={book?.price}
               onChange={(e) => setPrice(e.target.value)}
             />
           </div>
@@ -96,6 +128,7 @@ const AddNewBook = () => {
               name="rating"
               min="1"
               max="5"
+              defaultValue={book?.rating}
               onChange={(e) => setRating(e.target.value)}
             />
           </div>
@@ -107,6 +140,7 @@ const AddNewBook = () => {
             type="checkbox"
             name="featured"
             className="w-4 h-4"
+            defaultChecked={book?.featured}
             onChange={(e) => setFeatured(e.target.checked)}
           />
           <label htmlFor="featured" className="ml-2 text-sm">
@@ -116,7 +150,7 @@ const AddNewBook = () => {
         </div>
 
         <button type="submit" className="submit" id="submit">
-          {book ? "Add Book" : "Update Book"}
+          {isTrue ? "Add Book" : "Update Book"}
         </button>
       </form>
     </div>

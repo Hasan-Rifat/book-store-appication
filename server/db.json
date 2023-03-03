@@ -26,6 +26,15 @@
       "rating": 4,
       "featured": true,
       "id": 4
+    },
+    {
+      "name": "Emily Zimmerman",
+      "author": "Aute ea dolor aliqua",
+      "thumbnail": "https://m.media-amazon.com/images/P/1501171348.01._SCLZZZZZZZ_SX500_.jpg",
+      "price": "26",
+      "rating": 3,
+      "featured": true,
+      "id": "698558b1-5d07-4934-8d27-f8b5f3994c75"
     }
   ]
 }

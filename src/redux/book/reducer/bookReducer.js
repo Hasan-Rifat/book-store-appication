@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   books: [],
-  book: {},
+  book: [],
   search: "",
 };
 

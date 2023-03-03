@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import logo from "../../images/logo.svg";
+import { searchBook } from "../../redux/book/actions/actions";
 
 const Nav = () => {
   const dispatch = useDispatch();
-  const search = useSelector((state) => state.book.search);
-  console.log(search);
 
   const handelSearch = (e) => {
-    dispatch(e.target.value);
+    e.preventDefault();
+    const search = e.target.search.value;
+    dispatch(searchBook(search));
   };
   return (
     <nav className="py-4 2xl:px-6">
@@ -20,7 +21,7 @@ const Nav = () => {
           <li className="cursor-pointer">My Collection</li>
         </ul>
 
-        <form className="flex items-center">
+        <form onSubmit={handelSearch} className="flex items-center">
           <div className="group relative rounded-md bg-white">
             <svg
               width="20"
@@ -35,7 +36,7 @@ const Nav = () => {
               ></path>
             </svg>
             <input
-              onChange={handelSearch}
+              name="search"
               type="text"
               placeholder="Filter books..."
               className="search"

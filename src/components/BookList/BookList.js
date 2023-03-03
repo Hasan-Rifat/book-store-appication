@@ -6,7 +6,8 @@ import Card from "../Card/Card";
 
 const BookList = () => {
   const books = useSelector((state) => state.book.books);
-  console.log(books);
+  const search = useSelector((state) => state.book.search);
+  console.log(search);
   const dispatch = useDispatch();
   const [active, setActive] = useState(true);
 
@@ -22,6 +23,7 @@ const BookList = () => {
 
   if (books.length > 0) {
     content = books
+      .filter((book) => book.name.toLowerCase().includes(search.toLowerCase()))
       .filter((book) => {
         if (book) {
           return active ? book : book.featured;
